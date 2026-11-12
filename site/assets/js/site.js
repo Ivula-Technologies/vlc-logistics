@@ -46,6 +46,30 @@
 
   if (reduce) { document.querySelectorAll('.map .truck').forEach(function (t) { t.remove(); }); }
 
+  // Scroll-in motion. Anything already on screen stays as it is; if the browser
+  // cannot observe scrolling, nothing is hidden.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var rise = document.querySelectorAll('.section-head, .about-copy, .about-photo, .values-title, .values-grid > div, .card, .flow3 > div, .transport-head, .haul-item, .corridor-copy, .map, .wh-photo, .wh-copy, .fleet, .tracking, .hsse-head, .hsse-list li, .why-grid > div, .workflow-head, .workflow li, .leader, .sectors, .contact-info, .quote');
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); rio.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
+    var row = 0, lastTop = null;
+    rise.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight) return;
+      var top = Math.round(r.top);
+      row = (lastTop !== null && Math.abs(top - lastTop) < 8) ? row + 1 : 0;
+      lastTop = top;
+      el.classList.add('rise');
+      el.style.transitionDelay = Math.min(row, 4) * 90 + 'ms';
+      rio.observe(el);
+    });
+    // Safety net: if someone jumps with a menu link, make sure nothing stays hidden
+    window.addEventListener('hashchange', function () { setTimeout(function () {
+      document.querySelectorAll('.rise:not(.in)').forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in'); });
+    }, 600); });
+  }
+
   // Quote form: sends to contact.php, which emails the office
   var form = document.getElementById('quote');
   var status = document.getElementById('formStatus');
