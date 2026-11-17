@@ -3,7 +3,7 @@
 Client: Valence Logistics and Clearing Ltd (VLC Logistics). Built by Ivula Technologies from the company profile.
 
 ## What it is
-A one-page site with a looping port video behind the hero, sections for About, Customs, Transport and transit corridors (custom route map), Warehousing, fleet and HSSE, Why VLC with the 4-step workflow, Leadership, and a quote form. Plain HTML/CSS/JS, so it runs on any cPanel plan. No database, no build step.
+Six pages: Home (looping port video, services, Why VLC and the 4-step workflow), About (vision, mission, values, leadership), Customs, Transport (transit corridors and route map), Warehousing (fleet, tracking, HSSE) and Contact (quote form). WhatsApp buttons open a chat to 0706 444 868 with a ready-typed message for each page, and the contact form can be sent by WhatsApp with the details filled in. Plain HTML/CSS/JS, so it runs on any cPanel plan. No database, no build step.
 
 ## Upload to cPanel
 1. cPanel > File Manager > `public_html` of the client's domain.

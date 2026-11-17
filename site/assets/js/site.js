@@ -49,7 +49,7 @@
   // Scroll-in motion. Anything already on screen stays as it is; if the browser
   // cannot observe scrolling, nothing is hidden.
   if (!reduce && 'IntersectionObserver' in window) {
-    var rise = document.querySelectorAll('.section-head, .about-copy, .about-photo, .values-title, .values-grid > div, .card, .flow3 > div, .transport-head, .haul-item, .corridor-copy, .map, .wh-photo, .wh-copy, .fleet, .tracking, .hsse-head, .hsse-list li, .why-grid > div, .workflow-head, .workflow li, .leader, .sectors, .contact-info, .quote');
+    var rise = document.querySelectorAll('.section-head, .about-copy, .about-photo, .values-title, .values-grid > div, .card, .flow3 > div, .transport-head, .haul-item, .corridor-copy, .map, .wh-photo, .wh-copy, .fleet, .tracking, .hsse-head, .hsse-list li, .why-grid > div, .workflow-head, .workflow li, .leader, .sectors, .contact-info, .quote, .svc, .cta-row');
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); rio.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
@@ -73,7 +73,28 @@
   // Quote form: sends to contact.php, which emails the office
   var form = document.getElementById('quote');
   var status = document.getElementById('formStatus');
-  form.addEventListener('submit', function (e) {
+
+  // "Send on WhatsApp": opens WhatsApp with the form details already typed in
+  var waSend = document.getElementById('waSend');
+  if (form && waSend) {
+    function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+    function waText() {
+      var lines = ['Hello VLC Logistics, I found you on your website and I would like a quote.', ''];
+      [['Name', 'q-name'], ['Company', 'q-company'], ['Phone', 'q-phone'], ['Email', 'q-email'], ['Service', 'q-service'],
+       ['From', 'q-from'], ['To', 'q-to'], ['Cargo details', 'q-msg']].forEach(function (f) {
+        var v = val(f[1]);
+        if (v || f[0] === 'Name' || f[0] === 'From' || f[0] === 'To' || f[0] === 'Cargo details') lines.push(f[0] + ': ' + v);
+      });
+      return lines.join('\n');
+    }
+    function syncWa() { waSend.href = 'https://wa.me/254706444868?text=' + encodeURIComponent(waText()); }
+    form.addEventListener('input', syncWa);
+    form.addEventListener('change', syncWa);
+    waSend.addEventListener('click', syncWa);
+    syncWa();
+  }
+
+  if (form) form.addEventListener('submit', function (e) {
     e.preventDefault();
     status.className = 'form-status'; status.textContent = '';
     var ok = true;
