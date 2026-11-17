@@ -1,7 +1,7 @@
 # VLC Logistics website
 
 Website for Valence Logistics and Clearing Ltd (VLC Logistics), built by Ivula Technologies.
-A one-page static site (HTML, CSS, JS) with a PHP quote form. No build step, no database.
+A multi-page static site (HTML, CSS, JS) with a PHP quote form. Pages: index (home), about, customs, transport, warehousing, contact. Every WhatsApp button opens a chat to 0706 444 868 with a ready-typed message for that page; the contact page's "Send on WhatsApp" button copies the quote form details into the message. No build step, no database.
 
 ## Layout
 - `site/` is everything that goes into the domain's `public_html`.
